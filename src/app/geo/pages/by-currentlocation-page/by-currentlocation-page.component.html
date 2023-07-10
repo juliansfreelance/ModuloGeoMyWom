@@ -1,0 +1,35 @@
+<ng-template #mapReady>
+  <h3>Ubicación Actual</h3>
+  <hr class="border border-danger border-2 opacity-50">
+  <div class="row">
+    <div class="col">
+      <p>En este apartado se consume el servicio <code>GET_GEO_INVERSE</code> el cual recibe dos parametros de tipo
+        <var>:string</var>
+      </p>
+      <div class="alert alert-light" role="alert">
+        <code class="text-primary">
+        latitude: "<samp  class="text-primary">{{mapLocation?mapLocation[0]:''}}</samp>",<br>
+        longitude: "<samp class="text-primary">{{mapLocation?mapLocation[1]:''}}</samp>"
+      </code>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <hr class="border border-success-subtle border-2 opacity-50">
+      <agm-map *ngIf="mapLocation" [latitude]="mapLocation[0]" [longitude]="mapLocation[1]" [zoom]="zoom"
+        [disableDefaultUI]="disableUI">
+        <agm-marker *ngIf="userLocation" [latitude]="userLocation[0]" [longitude]="userLocation[1]" #marker></agm-marker>
+      </agm-map>
+      <button type="button" (click)="InverseByCurrentLocation(this.userLocation ? this.userLocation[0] : 0, this.userLocation ? this.userLocation[1] : 0)"
+        class="btn btn-primary my-4">Ejecutar</button>
+    </div>
+  </div>
+</ng-template>
+
+<div *ngIf="!isUserLocationReady; else mapReady" class="loading-map d-flex justify-content-center align-items-center">
+  <div class="text-center">
+    <h3>Espere por favor</h3>
+    <span>Localizando...</span>
+  </div>
+</div>
